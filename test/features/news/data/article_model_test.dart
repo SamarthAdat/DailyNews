@@ -59,8 +59,16 @@ void main() {
         ),
       )!;
 
+      final yahoo = ArticleModel.tryParse(
+        _articleJson(
+          title: 'Futures edge higher ahead of CPI data - Yahoo Finance',
+          source: 'Yahoo Entertainment',
+        ),
+      )!;
+
       expect(wsj.title, 'Albertsons wants \$8 billion from Kroger');
       expect(utilityDive.title, 'FERC rejects PJM plan');
+      expect(yahoo.title, 'Futures edge higher ahead of CPI data');
     });
 
     test('keeps dashes that are part of the headline', () {

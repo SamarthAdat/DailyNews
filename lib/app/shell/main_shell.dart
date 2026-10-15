@@ -15,28 +15,36 @@ class MainShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: _onTabSelected,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.newspaper_outlined),
-            selectedIcon: Icon(Icons.newspaper),
-            label: 'Feed',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.search_outlined),
-            selectedIcon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.bookmark_border),
-            selectedIcon: Icon(Icons.bookmark),
-            label: 'Saved',
-          ),
-        ],
+    final onFirstTab = navigationShell.currentIndex == 0;
+
+    return PopScope(
+      canPop: onFirstTab,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _onTabSelected(0);
+      },
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: navigationShell.currentIndex,
+          onDestinationSelected: _onTabSelected,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.newspaper_outlined),
+              selectedIcon: Icon(Icons.newspaper),
+              label: 'Feed',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.search_outlined),
+              selectedIcon: Icon(Icons.search),
+              label: 'Search',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.bookmark_border),
+              selectedIcon: Icon(Icons.bookmark),
+              label: 'Saved',
+            ),
+          ],
+        ),
       ),
     );
   }

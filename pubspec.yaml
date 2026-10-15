@@ -1,7 +1,7 @@
 name: daily_news
 description: "Business news intelligence app built with Flutter, Riverpod and Hive."
 publish_to: 'none'
-version: 0.1.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ^3.12.2
@@ -23,7 +23,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/icon/app_icon.png
+  remove_alpha_ios: true
+  adaptive_icon_background: "#123C69"
+  adaptive_icon_foreground: assets/icon/app_icon_foreground.png

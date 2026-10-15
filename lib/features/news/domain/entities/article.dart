@@ -21,8 +21,6 @@ class Article extends Equatable {
   final String? author;
   final String? imageUrl;
 
-  String get id => url;
-
   bool get hasImage => imageUrl != null && imageUrl!.isNotEmpty;
 
   @override

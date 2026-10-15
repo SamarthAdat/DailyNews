@@ -87,16 +87,27 @@ class ArticleModel extends Article {
     final separator = title.lastIndexOf(' - ');
     if (separator <= 0) return title;
 
-    final suffix = _normalize(title.substring(separator + 3));
+    final rawSuffix = title.substring(separator + 3);
+    final suffix = _normalize(rawSuffix);
     final source = _normalize(sourceName);
     if (suffix.length < 2 || source.isEmpty) return title;
 
     final isSourceName =
         suffix.contains(source) ||
         source.contains(suffix) ||
-        suffix == _initials(sourceName);
+        suffix == _initials(sourceName) ||
+        _sameBrand(rawSuffix, sourceName);
 
     return isSourceName ? title.substring(0, separator).trim() : title;
+  }
+
+  static bool _sameBrand(String suffix, String sourceName) {
+    final suffixWords = suffix.trim().split(RegExp(r'\s+'));
+    if (suffixWords.length > 3) return false;
+
+    final brand = _normalize(suffixWords.first);
+    return brand.length > 2 &&
+        brand == _normalize(sourceName.split(RegExp(r'\s+')).first);
   }
 
   static String _normalize(String value) =>

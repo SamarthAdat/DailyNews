@@ -16,6 +16,22 @@ final dioProvider = Provider<Dio>((ref) {
     ),
   );
 
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onRequest: (options, handler) {
+        if (Env.hasNewsApiKey) return handler.next(options);
+        handler.reject(
+          DioException(
+            requestOptions: options,
+            message:
+                'News API key is missing. Run the app with '
+                '--dart-define-from-file=env.json',
+          ),
+        );
+      },
+    ),
+  );
+
   if (kDebugMode) {
     dio.interceptors.add(
       LogInterceptor(requestHeader: false, responseBody: false),
