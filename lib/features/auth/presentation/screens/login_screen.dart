@@ -34,7 +34,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return;
     }
 
-    ref.read(authControllerProvider.notifier).login(
+    ref
+        .read(authControllerProvider.notifier)
+        .login(
           email: _emailController.text,
           password: _passwordController.text,
         );
@@ -46,9 +48,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (next case AsyncError(:final error)) {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(content: Text(mapToFailure(error).message)),
-          );
+          ..showSnackBar(SnackBar(content: Text(mapToFailure(error).message)));
       }
     });
 

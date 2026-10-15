@@ -6,7 +6,7 @@ import 'package:daily_news/features/auth/domain/repositories/auth_repository.dar
 
 class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl(this._localDataSource, {DateTime Function()? clock})
-      : _clock = clock ?? DateTime.now;
+    : _clock = clock ?? DateTime.now;
 
   final AuthLocalDataSource _localDataSource;
   final DateTime Function() _clock;

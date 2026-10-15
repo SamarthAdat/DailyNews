@@ -8,10 +8,5 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.init();
 
-  runApp(
-    ProviderScope(
-      retry: (_, _) => null,
-      child: const DailyNewsApp(),
-    ),
-  );
+  runApp(ProviderScope(retry: (_, _) => null, child: const DailyNewsApp()));
 }

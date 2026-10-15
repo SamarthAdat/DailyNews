@@ -22,9 +22,7 @@ class AccountSheet extends ConsumerWidget {
     try {
       await ref.read(authControllerProvider.notifier).logout();
     } catch (e) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(mapToFailure(e).message)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(mapToFailure(e).message)));
     }
   }
 

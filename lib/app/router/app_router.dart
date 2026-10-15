@@ -25,10 +25,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
-      GoRoute(
-        path: AppRoutes.login,
-        builder: (_, _) => const LoginScreen(),
-      ),
+      GoRoute(path: AppRoutes.login, builder: (_, _) => const LoginScreen()),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             MainShell(navigationShell: navigationShell),

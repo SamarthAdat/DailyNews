@@ -27,7 +27,10 @@ void main() {
   });
 
   test('normalizes email before passing it to repository', () async {
-    final user = await loginUser(email: '  John@Mail.COM ', password: 'secret1');
+    final user = await loginUser(
+      email: '  John@Mail.COM ',
+      password: 'secret1',
+    );
 
     expect(user.email, 'john@mail.com');
     expect(repository.loginCalls, 1);

@@ -16,8 +16,8 @@ class UserModel extends User {
   }
 
   Map<String, dynamic> toMap() => {
-        'email': email,
-        'name': name,
-        'signedInAt': signedInAt.toIso8601String(),
-      };
+    'email': email,
+    'name': name,
+    'signedInAt': signedInAt.toIso8601String(),
+  };
 }

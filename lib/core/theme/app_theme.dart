@@ -12,14 +12,12 @@ abstract final class AppTheme {
       seedColor: AppColors.brand,
       brightness: brightness,
     );
-    final background =
-        isDark ? AppColors.darkBackground : AppColors.lightBackground;
-    final textTheme = Typography.material2021(platform: TargetPlatform.android)
-        .black
-        .apply(
-          bodyColor: scheme.onSurface,
-          displayColor: scheme.onSurface,
-        );
+    final background = isDark
+        ? AppColors.darkBackground
+        : AppColors.lightBackground;
+    final textTheme = Typography.material2021(
+      platform: TargetPlatform.android,
+    ).black.apply(bodyColor: scheme.onSurface, displayColor: scheme.onSurface);
     final rounded = BorderRadius.circular(12);
 
     return ThemeData(
@@ -46,9 +44,7 @@ abstract final class AppTheme {
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14),
-          side: BorderSide(
-            color: scheme.outlineVariant.withValues(alpha: 0.6),
-          ),
+          side: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.6)),
         ),
       ),
       chipTheme: ChipThemeData(
@@ -60,8 +56,10 @@ abstract final class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: isDark ? scheme.surfaceContainerHigh : Colors.white,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: rounded,
           borderSide: BorderSide(color: scheme.outlineVariant),
