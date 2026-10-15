@@ -1,0 +1,25 @@
+name: daily_news
+description: "Business news intelligence app built with Flutter, Riverpod and Hive."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.11.1
+  equatable: ^3.0.0
+  flutter_riverpod: ^3.4.3
+  go_router: ^18.1.0
+  hive_ce: ^2.22.0
+  hive_ce_flutter: ^2.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
