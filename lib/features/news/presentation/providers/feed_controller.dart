@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:daily_news/core/error/failures.dart';
+import 'package:daily_news/features/news/domain/entities/article_page.dart';
 import 'package:daily_news/features/news/domain/entities/news_category.dart';
+import 'package:daily_news/features/news/presentation/providers/article_pagination.dart';
 import 'package:daily_news/features/news/presentation/providers/feed_state.dart';
 import 'package:daily_news/features/news/presentation/providers/news_providers.dart';
 
@@ -20,55 +21,28 @@ class SelectedCategory extends Notifier<NewsCategory> {
   void select(NewsCategory category) => state = category;
 }
 
-class FeedController extends AsyncNotifier<FeedState> {
+class FeedController extends AsyncNotifier<FeedState> with ArticlePagination {
   FeedController(this.category);
 
   final NewsCategory category;
 
   @override
-  Future<FeedState> build() async {
-    final firstPage = await ref.read(getTopHeadlinesProvider)(
-      category: category,
-    );
-    return FeedState.fromPage(firstPage);
+  Future<FeedState> build() => loadFirstPage();
+
+  @override
+  Future<ArticlePage> fetchPage(int page) {
+    return ref.read(getTopHeadlinesProvider)(category: category, page: page);
   }
 
   Future<void> refresh() async {
     try {
-      final firstPage = await ref.read(getTopHeadlinesProvider)(
-        category: category,
-      );
+      final firstPage = await loadFirstPage();
       if (!ref.mounted) return;
-      state = AsyncData(FeedState.fromPage(firstPage));
+      state = AsyncData(firstPage);
     } catch (e, st) {
       if (!ref.mounted) return;
       if (state.hasValue) rethrow;
       state = AsyncError(e, st);
-    }
-  }
-
-  Future<void> loadMore() async {
-    final current = state.value;
-    if (current == null || !current.hasMore || current.isLoadingMore) return;
-
-    final loading = current.copyWith(
-      isLoadingMore: true,
-      clearLoadMoreError: true,
-    );
-    state = AsyncData(loading);
-
-    try {
-      final next = await ref.read(getTopHeadlinesProvider)(
-        category: category,
-        page: current.page + 1,
-      );
-      if (!ref.mounted || !identical(state.value, loading)) return;
-      state = AsyncData(current.appendPage(next));
-    } catch (e) {
-      if (!ref.mounted || !identical(state.value, loading)) return;
-      state = AsyncData(
-        current.copyWith(isLoadingMore: false, loadMoreError: mapToFailure(e)),
-      );
     }
   }
 }

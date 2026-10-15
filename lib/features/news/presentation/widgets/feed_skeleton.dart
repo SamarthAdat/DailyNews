@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:daily_news/core/widgets/skeleton.dart';
 
 class FeedSkeleton extends StatelessWidget {
-  const FeedSkeleton({super.key});
+  const FeedSkeleton({super.key, this.showFeatured = true});
+
+  final bool showFeatured;
 
   @override
   Widget build(BuildContext context) {
@@ -12,18 +14,18 @@ class FeedSkeleton extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
         children: [
-          const AspectRatio(
-            aspectRatio: 16 / 9,
-            child: SkeletonBox(radius: 14),
-          ),
-          const SizedBox(height: 14),
-          const SkeletonBox(width: 120, height: 12),
-          const SizedBox(height: 10),
-          const SkeletonBox(height: 20),
-          const SizedBox(height: 8),
-          const SkeletonBox(width: 220, height: 20),
-          const SizedBox(height: 24),
-          for (var i = 0; i < 4; i++) const _TileSkeleton(),
+          if (showFeatured) ...const [
+            AspectRatio(aspectRatio: 16 / 9, child: SkeletonBox(radius: 14)),
+            SizedBox(height: 14),
+            SkeletonBox(width: 120, height: 12),
+            SizedBox(height: 10),
+            SkeletonBox(height: 20),
+            SizedBox(height: 8),
+            SkeletonBox(width: 220, height: 20),
+            SizedBox(height: 24),
+          ],
+          for (var i = 0; i < (showFeatured ? 4 : 7); i++)
+            const _TileSkeleton(),
         ],
       ),
     );

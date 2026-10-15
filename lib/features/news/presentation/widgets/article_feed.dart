@@ -15,6 +15,7 @@ import 'package:daily_news/features/news/presentation/widgets/article_tile.dart'
 import 'package:daily_news/features/news/presentation/widgets/featured_article_card.dart';
 import 'package:daily_news/features/news/presentation/widgets/feed_footer.dart';
 import 'package:daily_news/features/news/presentation/widgets/feed_skeleton.dart';
+import 'package:daily_news/features/news/presentation/widgets/load_more_listener.dart';
 
 class ArticleFeed extends ConsumerWidget {
   const ArticleFeed({super.key, required this.category});
@@ -41,8 +42,6 @@ class ArticleFeed extends ConsumerWidget {
 class _FeedList extends ConsumerWidget {
   const _FeedList({required this.category, required this.state});
 
-  static const _loadMoreThreshold = 600.0;
-
   final NewsCategory category;
   final FeedState state;
 
@@ -57,15 +56,6 @@ class _FeedList extends ConsumerWidget {
 
   void _open(BuildContext context, Article article) {
     context.push(AppRoutes.article, extra: article);
-  }
-
-  bool _onScroll(ScrollNotification notification, WidgetRef ref) {
-    if (notification.metrics.axis == Axis.vertical &&
-        notification.metrics.extentAfter < _loadMoreThreshold &&
-        state.canLoadMore) {
-      ref.read(feedControllerProvider(category).notifier).loadMore();
-    }
-    return false;
   }
 
   @override
@@ -88,8 +78,9 @@ class _FeedList extends ConsumerWidget {
 
     return RefreshIndicator(
       onRefresh: () => _refresh(context, ref),
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (notification) => _onScroll(notification, ref),
+      child: LoadMoreListener(
+        canLoadMore: state.canLoadMore,
+        onLoadMore: notifier.loadMore,
         child: CustomScrollView(
           key: PageStorageKey('feed-${category.name}'),
           physics: const AlwaysScrollableScrollPhysics(),

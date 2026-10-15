@@ -10,3 +10,7 @@ final sessionBoxProvider = Provider<Box<dynamic>>(
 final favoritesBoxProvider = Provider<Box<dynamic>>(
   (ref) => Hive.box<dynamic>(StorageBoxes.favorites),
 );
+
+final searchBoxProvider = Provider<Box<dynamic>>(
+  (ref) => Hive.box<dynamic>(StorageBoxes.search),
+);

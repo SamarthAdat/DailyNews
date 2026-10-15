@@ -33,6 +33,10 @@ final class ValidationFailure extends Failure {
   const ValidationFailure(super.message);
 }
 
+final class CancelledFailure extends Failure {
+  const CancelledFailure() : super('The request was cancelled.');
+}
+
 final class UnexpectedFailure extends Failure {
   const UnexpectedFailure() : super('Something went wrong. Please try again.');
 }
@@ -40,6 +44,7 @@ final class UnexpectedFailure extends Failure {
 Failure mapToFailure(Object error) => switch (error) {
   Failure() => error,
   NetworkException() => const NetworkFailure(),
+  RequestCancelledException() => const CancelledFailure(),
   ServerException(:final message) => ServerFailure(message),
   CacheException(:final message) => CacheFailure(message),
   _ => const UnexpectedFailure(),
