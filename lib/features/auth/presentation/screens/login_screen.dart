@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:daily_news/core/error/failures.dart';
+import 'package:daily_news/core/utils/snackbars.dart';
 import 'package:daily_news/core/utils/validators.dart';
 import 'package:daily_news/features/auth/presentation/providers/auth_controller.dart';
 import 'package:daily_news/features/auth/presentation/widgets/brand_mark.dart';
@@ -46,9 +47,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     ref.listen(authControllerProvider, (_, next) {
       if (next case AsyncError(:final error)) {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text(mapToFailure(error).message)));
+        context.showMessage(mapToFailure(error).message);
       }
     });
 

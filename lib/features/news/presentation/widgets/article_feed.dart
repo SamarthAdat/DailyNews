@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:daily_news/app/router/app_routes.dart';
 import 'package:daily_news/core/error/failures.dart';
+import 'package:daily_news/core/utils/snackbars.dart';
 import 'package:daily_news/core/widgets/error_view.dart';
 import 'package:daily_news/core/widgets/message_view.dart';
+import 'package:daily_news/features/news/domain/entities/article.dart';
 import 'package:daily_news/features/news/domain/entities/news_category.dart';
 import 'package:daily_news/features/news/presentation/providers/feed_controller.dart';
 import 'package:daily_news/features/news/presentation/providers/feed_state.dart';
@@ -47,10 +51,12 @@ class _FeedList extends ConsumerWidget {
       await ref.read(feedControllerProvider(category).notifier).refresh();
     } catch (e) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(mapToFailure(e).message)));
+      context.showMessage(mapToFailure(e).message);
     }
+  }
+
+  void _open(BuildContext context, Article article) {
+    context.push(AppRoutes.article, extra: article);
   }
 
   bool _onScroll(ScrollNotification notification, WidgetRef ref) {
@@ -89,10 +95,18 @@ class _FeedList extends ConsumerWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             if (hasFeatured)
-              SliverToBoxAdapter(child: FeaturedArticleCard(article: featured)),
+              SliverToBoxAdapter(
+                child: FeaturedArticleCard(
+                  article: featured,
+                  onTap: () => _open(context, featured),
+                ),
+              ),
             SliverList.separated(
               itemCount: rest.length,
-              itemBuilder: (_, index) => ArticleTile(article: rest[index]),
+              itemBuilder: (_, index) => ArticleTile(
+                article: rest[index],
+                onTap: () => _open(context, rest[index]),
+              ),
               separatorBuilder: (_, _) =>
                   const Divider(indent: 16, endIndent: 16),
             ),

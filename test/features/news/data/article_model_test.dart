@@ -89,6 +89,14 @@ void main() {
     });
   });
 
+  test('toMap and fromMap round-trip an article', () {
+    final article = ArticleModel.tryParse(
+      _articleJson(content: 'Body text [+120 chars]'),
+    )!;
+
+    expect(ArticleModel.fromMap(article.toMap()), article);
+  });
+
   test('ArticlesResponseModel drops duplicates and invalid entries', () {
     final response = ArticlesResponseModel.fromJson({
       'status': 'ok',

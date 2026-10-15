@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 abstract final class DateFormatter {
   static final _shortDate = DateFormat('d MMM y');
   static final _longDay = DateFormat('EEEE, d MMMM');
+  static final _dateTime = DateFormat('d MMM y, h:mm a');
 
   static String relative(DateTime date, {DateTime? now}) {
     final local = date.toLocal();
@@ -16,4 +17,6 @@ abstract final class DateFormatter {
   }
 
   static String longDay(DateTime date) => _longDay.format(date);
+
+  static String dateTime(DateTime date) => _dateTime.format(date.toLocal());
 }

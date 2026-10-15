@@ -12,8 +12,46 @@ class ArticleModel extends Article {
     super.imageUrl,
   });
 
+  factory ArticleModel.fromEntity(Article article) {
+    if (article is ArticleModel) return article;
+    return ArticleModel(
+      url: article.url,
+      title: article.title,
+      sourceName: article.sourceName,
+      publishedAt: article.publishedAt,
+      description: article.description,
+      content: article.content,
+      author: article.author,
+      imageUrl: article.imageUrl,
+    );
+  }
+
+  factory ArticleModel.fromMap(Map<String, dynamic> map) {
+    return ArticleModel(
+      url: map['url'] as String,
+      title: map['title'] as String,
+      sourceName: map['sourceName'] as String,
+      publishedAt: DateTime.parse(map['publishedAt'] as String),
+      description: map['description'] as String?,
+      content: map['content'] as String?,
+      author: map['author'] as String?,
+      imageUrl: map['imageUrl'] as String?,
+    );
+  }
+
   static const _removedMarker = '[Removed]';
   static final _truncationSuffix = RegExp(r'\s*\[\+\d+ chars\]$');
+
+  Map<String, dynamic> toMap() => {
+    'url': url,
+    'title': title,
+    'sourceName': sourceName,
+    'publishedAt': publishedAt.toIso8601String(),
+    'description': description,
+    'content': content,
+    'author': author,
+    'imageUrl': imageUrl,
+  };
 
   static ArticleModel? tryParse(Map<String, dynamic> json) {
     final url = _clean(json['url']);

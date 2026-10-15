@@ -7,6 +7,8 @@ import 'package:daily_news/app/shell/main_shell.dart';
 import 'package:daily_news/features/auth/presentation/providers/auth_controller.dart';
 import 'package:daily_news/features/auth/presentation/screens/login_screen.dart';
 import 'package:daily_news/features/favorites/presentation/screens/favorites_screen.dart';
+import 'package:daily_news/features/news/domain/entities/article.dart';
+import 'package:daily_news/features/news/presentation/screens/article_detail_screen.dart';
 import 'package:daily_news/features/news/presentation/screens/feed_screen.dart';
 import 'package:daily_news/features/search/presentation/screens/search_screen.dart';
 
@@ -26,6 +28,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       GoRoute(path: AppRoutes.login, builder: (_, _) => const LoginScreen()),
+      GoRoute(
+        path: AppRoutes.article,
+        redirect: (_, state) => state.extra is Article ? null : AppRoutes.feed,
+        builder: (_, state) =>
+            ArticleDetailScreen(article: state.extra! as Article),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             MainShell(navigationShell: navigationShell),
