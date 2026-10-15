@@ -12,6 +12,9 @@
 *.iml
 .vscode/
 
+# Local secrets
+env.json
+
 
 # Flutter repo-specific
 /bin/cache/

@@ -29,6 +29,10 @@ final class CacheFailure extends Failure {
       : super(message ?? 'Could not access data stored on this device.');
 }
 
+final class ValidationFailure extends Failure {
+  const ValidationFailure(super.message);
+}
+
 final class UnexpectedFailure extends Failure {
   const UnexpectedFailure() : super('Something went wrong. Please try again.');
 }

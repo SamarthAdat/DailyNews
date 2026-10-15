@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:daily_news/core/widgets/message_view.dart';
+import 'package:daily_news/features/auth/presentation/widgets/account_button.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -8,7 +9,10 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Daily News')),
+      appBar: AppBar(
+        title: const Text('Daily News'),
+        actions: const [AccountButton()],
+      ),
       body: const MessageView(
         icon: Icons.newspaper_outlined,
         title: 'Headlines are on the way',
